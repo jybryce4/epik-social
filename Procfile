@@ -1,0 +1,1 @@
+web: gunicorn general_testing.wsgi
