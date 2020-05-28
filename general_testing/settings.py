@@ -25,7 +25,7 @@ SECRET_KEY = 'qib(=etm$xv49yyqd^ewtir!+l3j-r3rc*wboc(j!lzph30aa1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['epik-social.herokuapp.com']
 
 
 # Application definition
