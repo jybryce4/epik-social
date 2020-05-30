@@ -19,6 +19,7 @@ def register(request):
 
     return render(request, 'users/register.html', {'form': form})
 
+@login_required # settings profile; public profile in blog app
 def profile(request):
     user = request.user
     user_posts = Post.objects.filter(author=user).order_by('-date_posted')[:5]
@@ -44,6 +45,7 @@ def profile(request):
     }
 
     return render(request, 'users/profile.html', context)
+
 
 
 
