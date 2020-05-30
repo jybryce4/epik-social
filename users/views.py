@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
+from blog.models import Post
 
 
 def register(request):
@@ -18,9 +19,9 @@ def register(request):
 
     return render(request, 'users/register.html', {'form': form})
 
-
-@login_required # users can only view this page if they're logged in
 def profile(request):
+    user = request.user
+    user_posts = Post.objects.filter(author=user).order_by('-date_posted')[:5]
     if request.method == 'POST': # runs when form is submitted
         u_form = UserUpdateForm(request.POST, instance=request.user) # populates forms 
         p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile) # populates forms; user image upload handling
@@ -37,8 +38,115 @@ def profile(request):
 
     context = {
         'u_form': u_form,
-        'p_form': p_form
+        'p_form': p_form,
+        'user_posts': user_posts,
+        'user': user
     }
 
     return render(request, 'users/profile.html', context)
+
+
+@login_required
+def postpreference(request, postid, userpreference):
+        
+        if request.method == "POST":
+                eachpost= get_object_or_404(Post, id=postid)
+
+                obj=''
+
+                valueobj=''
+
+                try:
+                        obj= Preference.objects.get(user= request.user, post= eachpost)
+
+                        valueobj= obj.value #value of userpreference
+
+
+                        valueobj= int(valueobj)
+
+                        userpreference= int(userpreference)
+                
+                        if valueobj != userpreference:
+                                obj.delete()
+
+
+                                upref= Preference()
+                                upref.user= request.user
+
+                                upref.post= eachpost
+
+                                upref.value= userpreference
+
+
+                                if userpreference == 1 and valueobj != 1:
+                                        eachpost.likes += 1
+                                        eachpost.dislikes -=1
+                                elif userpreference == 2 and valueobj != 2:
+                                        eachpost.dislikes += 1
+                                        eachpost.likes -= 1
+                                
+
+                                upref.save()
+
+                                eachpost.save()
+                        
+                        
+                                context= {'eachpost': eachpost,
+                                  'postid': postid}
+
+                                return render (request, 'posts/detail.html', context)
+
+                        elif valueobj == userpreference:
+                                obj.delete()
+                        
+                                if userpreference == 1:
+                                        eachpost.likes -= 1
+                                elif userpreference == 2:
+                                        eachpost.dislikes -= 1
+
+                                eachpost.save()
+
+                                context= {'eachpost': eachpost,
+                                  'postid': postid}
+
+                                return render (request, 'posts/detail.html', context)
+                                
+                        
+        
+                
+                except Preference.DoesNotExist:
+                        upref= Preference()
+
+                        upref.user= request.user
+
+                        upref.post= eachpost
+
+                        upref.value= userpreference
+
+                        userpreference= int(userpreference)
+
+                        if userpreference == 1:
+                                eachpost.likes += 1
+                        elif userpreference == 2:
+                                eachpost.dislikes +=1
+
+                        upref.save()
+
+                        eachpost.save()                            
+
+
+                        context= {'eachpost': eachpost,
+                          'postid': postid}
+
+                        return render (request, 'posts/detail.html', context)
+
+
+        else:
+                eachpost= get_object_or_404(Post, id=postid)
+                context= {'eachpost': eachpost,
+                          'postid': postid}
+
+                return render (request, 'posts/detail.html', context)
+
+
 

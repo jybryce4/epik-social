@@ -4,7 +4,7 @@
    <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}">
    <div class="media-body">
       <div class="article-metadata">
-         <a class="mr-2" href="#">{{ object.author }}</a>
+         <a class="mr-2" href="{% url 'user-posts' object.author.username %}">{{ object.author }}</a>
          <small class="text-muted">{{ object.date_posted|date:"d F Y" }}</small>
          {% if object.author == user%}
             <div>
@@ -18,4 +18,17 @@
       <p class="article-content">{{ object.content }}</p>
    </div>
 </article>
+<hr>
+<div class="content-section">
+<a class="btn btn-outline-info" href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
+{% for comment in object.comments.all %}
+    <div class="comment">
+        <div class="date">{{ comment.created_date }}</div>
+        <strong>{{ comment.author }}</strong>
+        <p>{{ comment.text|linebreaks }}</p>
+    </div>
+{% empty %}
+    <p>No comments here yet :(</p>
+{% endfor %}
+</div>
 {% endblock content %}

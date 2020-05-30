@@ -26,7 +26,7 @@ SECRET_KEY = 'qib(=etm$xv49yyqd^ewtir!+l3j-r3rc*wboc(j!lzph30aa1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['epik-social.herokuapp.com']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -58,7 +58,10 @@ ROOT_URLCONF = 'general_testing.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates/blog'),
+            os.path.join(BASE_DIR), 'templates/users'
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -131,6 +134,13 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_REDIRECT_URL = 'blog-home'
 LOGIN_URL = 'login'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'jbxhalite5@gmail.com'
+EMAIL_HOST_PASSWORD = 'Sunanoken@1'
 
 django_heroku.settings(locals())
 
