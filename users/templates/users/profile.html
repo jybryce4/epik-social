@@ -6,8 +6,9 @@
         <div class="media">
             <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
             <div class="media-body">
-                <h2 class="account-heading">{{ user.username }}</h2>
-                <p class="text-secondary">{{ user.email }}</p>
+                <h2 class="account-heading">{{ user.first_name }} {{ user.last_name }}</h2>
+                <p class="text-secondary">{{ user.profile.tagline }}</p>
+                <p class="text-primary">@{{ user.username }}</p>
             </div>
         </div>
 
@@ -16,24 +17,8 @@
             <p>{{ user.profile.bio }}</p>
         </div>
 
-        <!-- User's Latest Posts -->
-        <h3>Latest Posts by {{ user.username }}</h3>
-        {% for post in user_posts %}
-            <article class="media content-section">
-            <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
-            <div class="media-body">
-                <div class="article-metadata">
-                    <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
-                <small class="text-muted">{{ post.date_posted|date:"d F Y" }}</small>
-                </div>
-            <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
-            <p class="article-content">{{ post.content }}</p>
-            </div>
-            </article>
-        {% endfor %}
-
         
-        <a class="btn btn-info mb-4" href="{% url 'user-posts' user.username %}">View more posts by {{ user.username }}</a>
+        <a class="btn btn-info mb-4" href="{% url 'user-posts' user.username %}">View your posts</a>
         
 
         <!-- enctype important for images-->
@@ -41,7 +26,7 @@
             <form method="POST" enctype="multipart/form-data"> 
                 {% csrf_token %}
                 <fieldset class="form-group">
-                    <legend class="border-bottom mb-4">Update Profile Here</legend>
+                    <legend class="border-bottom mb-4">Update Your Info</legend>
                     {{ u_form|crispy }}
                     {{ p_form|crispy }}
                 </fieldset>

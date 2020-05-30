@@ -8,6 +8,7 @@ from django.views.generic import (
 from .models import Post
 from django.contrib.auth.models import User
 from .forms import CommentForm
+from users.views import profile
 
 
 def home(request):
@@ -23,7 +24,7 @@ class PostListView(ListView):
     context_object_name = 'posts'
     ordering = ['-date_posted'] # newest posts first
     paginate_by = 15
-    
+
 
 class UserPostListView(ListView):
     model = Post
@@ -38,7 +39,7 @@ class UserPostListView(ListView):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
         # limit posts to user; order by latest posts
         return Post.objects.filter(author=user).order_by('-date_posted')
-
+    
 
 class PostDetailView(DetailView):
     model = Post
@@ -92,3 +93,9 @@ def add_comment_to_post(request, pk):
 
 def about(request):
     return render(request, 'blog/about.html', {'title': 'About'})
+
+
+# public user profile
+def get_user_profile(request, username):
+    user = User.objects.get(username=username)
+    return render(request, 'blog/public_profile.html', {'user': user})

@@ -1,0 +1,20 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    <div class="content-section">
+        <div class="media">
+            <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+            <div class="media-body">
+                <h2 class="account-heading">{{ user.first_name }} {{ user.last_name }}</h2>
+                <h4 class="text-primary">@{{ user.username }}</h4>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h4>About Me</h4>
+            <p>{{ user.profile.bio }}</p>
+        </div>
+    </div>
+        
+        <a class="btn btn-info mb-4" href="{% url 'user-posts' user.username %}">View posts by {{ user.username }}</a>
+{% endblock content %}
