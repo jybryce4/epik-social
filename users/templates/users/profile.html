@@ -7,8 +7,8 @@
             <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
             <div class="media-body">
                 <h2 class="account-heading">{{ user.first_name }} {{ user.last_name }}</h2>
-                <p class="text-secondary">{{ user.profile.tagline }}</p>
-                <p class="text-primary">@{{ user.username }}</p>
+                <h4 class="text-primary">@{{ user.username }}</h4>
+                <h6 class="text-secondary">{{ user.profile.tagline }}</h6>
             </div>
         </div>
 
@@ -17,7 +17,10 @@
             <p>{{ user.profile.bio }}</p>
         </div>
 
-        
+        <div class="content-section">
+           <h5>View my website: <a class="text-primary" href="{{ user.profile.website }}">{{ user.profile.website }}</a></h5>
+        </div>
+
         <a class="btn btn-info mb-4" href="{% url 'user-posts' user.username %}">View your posts</a>
         
 
