@@ -94,6 +94,7 @@ def add_comment_to_post(request, pk):
         form = CommentForm(initial={'author': request.user}) # post as the logged in user by default
     return render(request, 'blog/add_comment_to_post.html', {'form': form})
 
+# about page
 def about(request):
     return render(request, 'blog/about.html', {'title': 'About'})
 
@@ -114,6 +115,11 @@ def get_user_profile(request, username):
 @login_required
 def like_post(request):
     pass
+
+
+# community guidelines page
+def get_comm_guide(request):
+    return render(request, 'blog/comm_guide.html', {'title':'Community Guidelines'})
 
 
     
