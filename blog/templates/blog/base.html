@@ -16,9 +16,9 @@
       <link rel="stylesheet" type="text/css" href="{% static 'blog/main.css' %}">
 
       {% if title %}
-      <title>ePIK - {{title}}</title>
+         <title>ePIK - {{title}}</title>
       {% else %}
-      <title>ePIK</title>
+         <title>ePIK - Social Network</title>
       {% endif %}
    </head>
    <body>
@@ -26,9 +26,9 @@
          <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
             <div class="container">
                {% if user.is_authenticated %}
-                  <a class="navbar-brand mr-4" href="{% url 'blog-home' %}">{{ user.first_name }}'s ePIK</a>
+                  <a class="navbar-brand mr-4" href="{% url 'blog-home' %}">{{ user.first_name }}'s ePIK (Developer Preview)</a>
                {% else %}
-                  <a class="navbar-brand mr-4" href="{% url 'blog-home' %}">ePIK</a>
+                  <a class="navbar-brand mr-4" href="{% url 'blog-home' %}">ePIK (Developer Preview)</a>
                {% endif %}
                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
                <span class="navbar-toggler-icon"></span>
