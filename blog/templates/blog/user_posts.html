@@ -1,7 +1,6 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
-
 <h1 class="mb-3">All Posts by {{ view.kwargs.username }} ({{ page_obj.paginator.count }})</h1>
 {% for post in posts %}
    <article class="media content-section">
@@ -13,6 +12,13 @@
          </div>
       <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
       <p class="article-content">{{ post.content }}</p>
+
+      {% if user.is_authenticated %}
+         <a href="#" class="mr-2">{{ post.likes.count }}</a>
+         <button id="likes" class="btn btn-primary btn-sm" type="button">
+            <span class="fas fa-thumbs-up"> Like</span>
+         </button>
+      {% endif %}
       </div>
       <a href="{% url 'post-detail' pk=post.pk %}">Comments: {{ post.comments.count }}</a>
    </article>
