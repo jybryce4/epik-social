@@ -5,10 +5,13 @@ from django.views.generic import (
     CreateView, UpdateView,
     DeleteView, RedirectView
 )
-from .models import Post
+from django.http import HttpResponse
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+
 from .forms import CommentForm
 from users.views import profile
+from .models import Post, Like
 
 
 def home(request):
@@ -77,7 +80,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         post = self.get_object()
         return self.request.user == post.author
 
-
+@login_required
 def add_comment_to_post(request, pk):
     post = get_object_or_404(Post, pk=pk)
     if request.method == "POST":
@@ -88,19 +91,30 @@ def add_comment_to_post(request, pk):
             comment.save()
             return redirect('post-detail', pk=post.pk)
     else:
-        form = CommentForm()
+        form = CommentForm(initial={'author': request.user}) # post as the logged in user by default
     return render(request, 'blog/add_comment_to_post.html', {'form': form})
 
 def about(request):
     return render(request, 'blog/about.html', {'title': 'About'})
 
 
-# public user profile
+# public user profile (only for logged in users, though)
+@login_required
 def get_user_profile(request, username):
     user = User.objects.get(username=username)
-    return render(request, 'blog/public_profile.html', {'user': user})
+    user_posts = Post.objects.filter(author=user).order_by('-date_posted')[:5]
+    context = {
+        'user': user,
+        'user_posts': user_posts,
+    }
+    return render(request, 'blog/public_profile.html', context)
 
 
 # liking posts
+@login_required
+def like_post(request):
+    pass
 
+
+    
 

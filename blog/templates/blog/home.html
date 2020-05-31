@@ -13,14 +13,13 @@
 
       <!--Like button-->
       {% if user.is_authenticated %}
+         <a href="#" class="mr-2">{{ post.likes.count }}</a>
          <button id="likes" class="btn btn-primary btn-sm" type="button">
-            <span class="fas fa-thumbs-up"></span>
+            <span class="fas fa-thumbs-up"> Like</span>
          </button>
+         <a class="btn btn-sm btn-primary fas fa-comments" href="{% url 'add_comment_to_post' pk=post.pk %}"> Add a Comment</a>
       {% endif %}
       </div>
-
-      <a href="{% url 'post-detail' pk=post.pk %}">Comments: {{ post.comments.count }}</a>
-      <a href="#" class="ml-4">Likes: {{ post.likes.count }}</a>
    </article>
 {% endfor %}
 
