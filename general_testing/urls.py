@@ -21,7 +21,7 @@ from django.conf.urls.static import static
 from users import views as user_views
 from blog import views as blog_views
 
-urlpatterns = [
+urlpatterns = static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + [
     path('admin/', admin.site.urls),
     path('register/', user_views.register, name='register'),
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
@@ -35,5 +35,5 @@ urlpatterns = [
     path('', include('blog.urls')), # home page
 ]
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 
