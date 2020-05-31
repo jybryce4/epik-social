@@ -21,6 +21,7 @@ from django.conf.urls.static import static
 from users import views as user_views
 from blog import views as blog_views
 
+
 urlpatterns = static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + [
     path('admin/', admin.site.urls),
     path('register/', user_views.register, name='register'),
