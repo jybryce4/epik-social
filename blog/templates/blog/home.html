@@ -10,8 +10,17 @@
          </div>
       <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
       <p class="article-content">{{ post.content }}</p>
+
+      <!--Like button-->
+      {% if user.is_authenticated %}
+         <button id="likes" class="btn btn-primary btn-sm" type="button">
+            <span class="fas fa-thumbs-up"></span>
+         </button>
+      {% endif %}
       </div>
+
       <a href="{% url 'post-detail' pk=post.pk %}">Comments: {{ post.comments.count }}</a>
+      <a href="#" class="ml-4">Likes: {{ post.likes.count }}</a>
    </article>
 {% endfor %}
 

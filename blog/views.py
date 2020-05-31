@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import (
     ListView, DetailView, 
     CreateView, UpdateView,
-    DeleteView
+    DeleteView, RedirectView
 )
 from .models import Post
 from django.contrib.auth.models import User
@@ -39,7 +39,7 @@ class UserPostListView(ListView):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
         # limit posts to user; order by latest posts
         return Post.objects.filter(author=user).order_by('-date_posted')
-    
+
 
 class PostDetailView(DetailView):
     model = Post
@@ -99,3 +99,8 @@ def about(request):
 def get_user_profile(request, username):
     user = User.objects.get(username=username)
     return render(request, 'blog/public_profile.html', {'user': user})
+
+
+# liking posts
+
+
