@@ -9,6 +9,7 @@ class Post(models.Model):
     content = models.TextField()
     date_posted = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
+    likes = models.ManyToManyField(User, related_name='likes')
     
 
     def __str__(self):
@@ -18,20 +19,36 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse('post-detail', kwargs={'pk': self.pk})
 
+# currently doesn't work
+class Like(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+
 
 class Comment(models.Model):
     post = models.ForeignKey('blog.Post', on_delete=models.CASCADE, related_name='comments')
-    author = models.CharField(max_length=200)
     text = models.TextField()
+    author = models.CharField(max_length=200)
     created_date = models.DateTimeField(default=timezone.now())
-    approved_comment = models.BooleanField(default=False)
+    # approved_comment = models.BooleanField(default=False)
 
-    def approve(self):
-        self.approved_comment = True
-        self.save()
+    class Meta:
+        ordering = ['created_date']
+
+    #def approve(self):
+        #self.approved_comment = True
+        #self.save()
 
     def __str__(self):
         return self.text
+
+
+
+    
+
+
+    
+
 
     
     

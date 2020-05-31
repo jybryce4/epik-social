@@ -1,0 +1,47 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    <div class="content-section">
+        <div class="media">
+            <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+            <div class="media-body">
+                <h2 class="account-heading">{{ user.first_name }} {{ user.last_name }}</h2>
+                <h4 class="text-primary">@{{ user.username }}</h4>
+                <em><h6 class="text-secondary">{{ user.profile.tagline }}</h6></em>  
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h4>About Me</h4>
+            <p>{{ user.profile.bio }}</p>
+        </div>
+
+        <div class="content-section">
+           <h5>View my website: <a class="text-primary" href="{{ user.profile.website }}">{{ user.profile.website }}</a></h5>
+        </div>
+    </div>
+
+    {% for post in user_posts %}
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="{{ user.profile.image.url }}">
+          <div class="media-body">
+            <div class="article-metadata">
+                <a class="mr-2" href="{% url 'public-profile' post.author.username %}">{{ post.author }}</a>
+                <small class="text-muted">{{ post.date_posted|date:"d F Y" }}</small>
+            </div>
+                <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
+                <p class="article-content">{{ post.content }}</p>
+                
+                <!--Like button-->
+                <a href="#" class="mr-2">{{ post.likes.count }}</a>
+                <button id="likes" class="btn btn-primary btn-sm" type="button">
+                    <span class="fas fa-thumbs-up"> Like</span>
+                </button>
+            
+          </div>
+          <a href="{% url 'post-detail' pk=post.pk %}">Comments: {{ post.comments.count }}</a>
+        </article>
+    {% endfor %}
+        
+    <a class="btn btn-info mb-4" href="{% url 'user-posts' user.username %}">View more posts by {{ user.username }}</a>
+{% endblock content %}

@@ -16,9 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import include, path
-from users import views as user_views
 from django.conf import settings
 from django.conf.urls.static import static
+from users import views as user_views
+from blog import views as blog_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,6 +31,7 @@ urlpatterns = [
     path('password-reset-confirm/<uidb64>/<token>', auth_views.PasswordResetConfirmView.as_view(template_name='users/password_reset_confirm.html'), name='password_reset_confirm'),
     path('password-reset-complete/', auth_views.PasswordResetCompleteView.as_view(template_name='users/password_reset_complete.html'), name='password_reset_complete'),
     path('profile/', user_views.profile, name='profile'),
+    path('user/', blog_views.get_user_profile, name='public_profile'),
     path('', include('blog.urls')), # home page
 ]
 
