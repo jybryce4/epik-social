@@ -22,7 +22,7 @@ from users import views as user_views
 from blog import views as blog_views
 
 
-urlpatterns = static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + [
+urlpatterns = [
     path('admin/', admin.site.urls),
     path('register/', user_views.register, name='register'),
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
@@ -34,7 +34,7 @@ urlpatterns = static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + [
     path('profile/', user_views.profile, name='profile'),
     path('user/', blog_views.get_user_profile, name='public_profile'),
     path('', include('blog.urls')), # home page
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
 
