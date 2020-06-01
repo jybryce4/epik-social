@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 {% block content %}
     <h1>New comment</h1>
-    <p>Note: You can post under a different name as long as it follows our <a href="#">Community Guidelines</a>.</p>
+    <p>Note: You can post under a different name as long as it follows our <a href="{% url 'comm-guide'%}">Community Guidelines</a>.</p>
     <form method="POST" class="post-form">{% csrf_token %}
         {{ form|crispy }}
         <button type="submit" class="save btn btn-default">Send</button>
