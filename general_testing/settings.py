@@ -25,10 +25,21 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
+'''
+you must generate this yourself - 
+---------Code to Run-------------
+from django.core.management.utils import get_random_secret_key
+
+print(get_random_secret_key())
+----------------------------------
+Copy the output exactly and set an environment variable on your OS
+called SECRET_KEY to that value
+'''
+SECRET_KEY = os.getenv('SECRET_KEY') 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True # keep this set for now; something weird with images (404 error)
+# DEBUG = False
 
 ALLOWED_HOSTS = ['epik-social.herokuapp.com']
 
@@ -48,7 +59,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    #'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
